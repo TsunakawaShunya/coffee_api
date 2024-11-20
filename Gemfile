@@ -45,3 +45,8 @@ group :development do
   # gem "spring"
 end
 
+# devise
+gem 'devise'
+gem 'devise_token_auth'
+gem 'devise-i18n'
+gem 'rack-cors'

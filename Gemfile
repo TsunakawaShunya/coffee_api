@@ -46,7 +46,7 @@ group :development do
 end
 
 # devise
+gem "rack-cors"
 gem 'devise'
 gem 'devise_token_auth'
 gem 'devise-i18n'
-gem 'rack-cors'

@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  bean: one
+  recipe: one
+  taste_x: 1.5
+  taste_y: 1.5
+  comment: MyText
+
+two:
+  bean: two
+  recipe: two
+  taste_x: 1.5
+  taste_y: 1.5
+  comment: MyText

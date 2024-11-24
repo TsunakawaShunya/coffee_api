@@ -8,4 +8,5 @@ class User < ActiveRecord::Base
   include DeviseTokenAuth::Concerns::User
 
   has_many :beans, dependent: :destroy
+  has_many :recipes, dependent: :destroy
 end

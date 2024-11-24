@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_11_24_085012) do
+ActiveRecord::Schema[7.1].define(version: 2024_11_24_120700) do
   create_table "beans", force: :cascade do |t|
     t.integer "user_id", null: false
     t.string "name"
@@ -19,6 +19,18 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_24_085012) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_beans_on_user_id"
+  end
+
+  create_table "notes", force: :cascade do |t|
+    t.integer "bean_id", null: false
+    t.integer "recipe_id", null: false
+    t.float "taste_x", default: 0.0, null: false
+    t.float "taste_y", default: 0.0, null: false
+    t.text "comment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bean_id"], name: "index_notes_on_bean_id"
+    t.index ["recipe_id"], name: "index_notes_on_recipe_id"
   end
 
   create_table "recipes", force: :cascade do |t|
@@ -63,5 +75,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_24_085012) do
   end
 
   add_foreign_key "beans", "users"
+  add_foreign_key "notes", "beans"
+  add_foreign_key "notes", "recipes"
   add_foreign_key "recipes", "users"
 end

@@ -19,6 +19,7 @@ Rails.application.routes.draw do
       end
 
       resources :beans
+      resources :recipes
     end
   end
 end

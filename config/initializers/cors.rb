@@ -7,7 +7,15 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins "localhost:3000"
+    # 開発環境
+    if Rails.env.development?
+      origins "http://localhost:3000"  # ローカル開発環境のURLを指定
+    end
+
+    # 本番環境
+    if Rails.env.production?
+      origins "https://myapp-red-seven.vercel.app/"  # 本番環境のURLを指定
+    end
 
     resource "*",
       headers: :any,

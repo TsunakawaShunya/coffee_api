@@ -14,7 +14,7 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
 
     # 本番環境
     if Rails.env.production?
-      origins "https://coffee-lg1t4wnif-shunyas-projects-df37a3c0.vercel.app"  # 本番環境のURLを指定
+      origins "https://coffee-app-rosy-delta.vercel.app"  # 本番環境のURLを指定
     end
 
     resource "*",

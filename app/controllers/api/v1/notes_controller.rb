@@ -5,7 +5,10 @@ module Api
 
       # GET /notes
       def index
-        notes = Note.includes(:bean, :recipe).all
+      # 現在ログイン中のユーザーの関連する notes を取得
+      notes = Note.includes(:bean, :recipe)
+                  .where(beans: { user_id: current_api_v1_user.id }, recipes: { user_id: current_api_v1_user.id })
+                  .references(:bean, :recipe)
         render json: notes.as_json(
           include: {
             bean: { only: [:name] },

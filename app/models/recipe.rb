@@ -2,5 +2,5 @@ class Recipe < ApplicationRecord
   belongs_to :user
   has_many :notes, dependent: :destroy
 
-  validates :title, :method, presence: true
+  validates :method, presence: true
 end

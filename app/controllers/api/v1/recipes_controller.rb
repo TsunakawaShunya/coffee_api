@@ -12,10 +12,7 @@ module Api
 
       # POST /recipes
       def create
-        params_with_default_title = recipe_params.dup
-        params_with_default_title[:title] = "タイトルなし" if params_with_default_title[:title].blank?
-      
-        recipe = current_api_v1_user.recipes.build(params_with_default_title)
+        recipe = current_api_v1_user.recipes.build(recipe_params)
         if recipe.save
           render json: recipe, status: :created
         else
@@ -51,7 +48,7 @@ module Api
       end
 
       def recipe_params
-        params.require(:recipe).permit(:title, :method, :temp, :ratio)
+        params.require(:recipe).permit(:title, :method, :temp, :ratio, :comment)
       end
     end
   end

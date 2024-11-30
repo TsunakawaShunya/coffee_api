@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_11_24_120700) do
+ActiveRecord::Schema[7.1].define(version: 2024_11_30_053855) do
   create_table "beans", force: :cascade do |t|
     t.integer "user_id", null: false
     t.string "name"
@@ -41,6 +41,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_24_120700) do
     t.float "ratio"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "comment"
     t.index ["user_id"], name: "index_recipes_on_user_id"
   end
 

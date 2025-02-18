@@ -6,8 +6,22 @@ module Api
 
       # GET /api/v1/beans
       def index
+        #Rails.logger.debug "Received Params: #{params.inspect}"
+        #Rails.logger.debug "Current User: #{current_api_v1_user.inspect}"
+
+        per_page = (params[:per_page] || 10).to_i
+        cursor = params[:cursor].to_i
+
         beans = current_api_v1_user.beans
-        render json: beans
+        beans = beans.where('id > ?', cursor) if cursor.present? # カーソルがあればカーソルより後のデータを取得
+        beans = beans.order(id: :asc).limit(per_page) # id順に並べて，指定数取得
+
+        next_cursor = beans.last&.id # 次のカーソル
+        
+        render json: {
+          beans: beans,
+          next_cursor: next_cursor
+        }
       end
 
       # GET /api/v1/beans/:id

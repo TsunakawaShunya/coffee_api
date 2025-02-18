@@ -55,3 +55,6 @@ gem 'devise-i18n'
 group :production do
   gem "pg", "~> 1.4"
 end
+
+# pagenation
+gem 'kaminari'

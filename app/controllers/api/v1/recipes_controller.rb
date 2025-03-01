@@ -6,8 +6,19 @@ module Api
 
       # GET /recipes
       def index
+        per_page = (params[:per_page] || 10).to_i
+        cursor = params[:cursor].to_i
+
         recipes = current_api_v1_user.recipes
-        render json: recipes
+        recipes = recipes.where('id > ?', cursor) if cursor.present?
+        recipes = recipes.order(id: :asc).limit(per_page)
+
+        next_cursor = recipes.last&.id
+        
+        render json: {
+          recipes: recipes,
+          next_cursor: next_cursor
+        }
       end
 
       # POST /recipes
@@ -38,6 +49,12 @@ module Api
       def destroy
         @recipe.destroy
         head :no_content
+      end
+
+      # GET /recipes/all
+      def all
+        recipes = current_api_v1_user.recipes.order(id: :asc)
+        render json: recipes
       end
 
       private

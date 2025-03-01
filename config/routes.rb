@@ -18,9 +18,15 @@ Rails.application.routes.draw do
         resources :sessions, only: [:index]
       end
 
-      resources :beans
-      resources :recipes
-      resources :notes
+      resources :beans do
+        get :all, on: :collection
+      end
+      resources :recipes do
+        get :all, on: :collection
+      end
+      resources :notes do
+        get :all, on: :collection
+      end
     end
   end
 end

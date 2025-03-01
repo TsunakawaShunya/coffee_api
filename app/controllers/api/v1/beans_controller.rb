@@ -54,6 +54,12 @@ module Api
         head :no_content
       end
 
+      # GET /api/v1/beans/all
+      def all
+        beans = current_api_v1_user.beans.order(id: :asc)
+        render json: beans
+      end
+
       private
 
       def set_bean

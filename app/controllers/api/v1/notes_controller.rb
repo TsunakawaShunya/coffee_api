@@ -5,16 +5,27 @@ module Api
 
       # GET /notes
       def index
-      # 現在ログイン中のユーザーの関連する notes を取得
-      notes = Note.includes(:bean, :recipe)
-                  .where(beans: { user_id: current_api_v1_user.id }, recipes: { user_id: current_api_v1_user.id })
-                  .references(:bean, :recipe)
-        render json: notes.as_json(
-          include: {
-            bean: { only: [:name] },
-            recipe: { only: [:title] }
-          }
-        )
+        per_page = (params[:per_page] || 10).to_i
+        cursor = params[:cursor].to_i
+
+        notes = Note.includes(:bean, :recipe)
+                    .where(beans: { user_id: current_api_v1_user.id }, recipes: { user_id: current_api_v1_user.id })
+                    .references(:bean, :recipe)
+        
+        notes = notes.where('notes.id > ?', cursor) if cursor.present?
+        notes = notes.order(id: :asc).limit(per_page)
+
+        next_cursor = notes.last&.id
+        
+        render json: {
+          notes: notes.as_json(
+            include: {
+              bean: { only: [:name] },
+              recipe: { only: [:title] }
+            }
+          ),
+          next_cursor: next_cursor
+        }
       end
 
       # GET /notes/:id
@@ -50,6 +61,21 @@ module Api
       def destroy
         @note.destroy
         head :no_content
+      end
+
+      # GET /notes/all
+      def all
+        notes = Note.includes(:bean, :recipe)
+                    .where(beans: { user_id: current_api_v1_user.id }, recipes: { user_id: current_api_v1_user.id })
+                    .references(:bean, :recipe)
+                    .order(id: :asc)
+
+        render json: notes.as_json(
+          include: {
+            bean: { only: [:name] },
+            recipe: { only: [:title] }
+          }
+        )
       end
     
       private
